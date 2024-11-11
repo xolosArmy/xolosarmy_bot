@@ -9,7 +9,7 @@ import requests
 telegram_token = 'Token'
 
 # Replace with your memo.cash BCH address
-bch_address = "1Kq5hxjgyzTow9KTMzBJDuSeW3S2eHpXhx"
+bch_address = "bch memo address"
 url = f"https://memo.cash/api/v1/profile/{bch_address}/posts"
 
 
