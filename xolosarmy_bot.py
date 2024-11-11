@@ -30,7 +30,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 async def memo_posts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    bch_address = "1Kq5hxjgyzTow9KTMzBJDuSeW3S2eHpXhx"  # Legacy address
+    bch_address = "bch_memo_address"  # Legacy address
     url = f"https://memo.cash/api/v1/profile/{bch_address}/posts"
     
     response = requests.get(url)
