@@ -6,7 +6,7 @@ import requests
 import requests
 
 # Replace with your Telegram Bot token
-telegram_token = '7586262330:AAFyJwknzeWph5MjFRzqBhcscM5xJcvScJc'
+telegram_token = 'Token'
 
 # Replace with your memo.cash BCH address
 bch_address = "1Kq5hxjgyzTow9KTMzBJDuSeW3S2eHpXhx"
