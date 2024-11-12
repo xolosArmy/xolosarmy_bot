@@ -6,11 +6,7 @@ import requests
 import requests
 
 # Replace with your Telegram Bot token
-telegram_token = 'Token'
-
-# Replace with your memo.cash BCH address
-bch_address = "bch_memo_address"
-url = f"https://memo.cash/api/v1/profile/{bch_address}/posts"
+telegram_token = 'TG_Token'
 
 
 
@@ -29,23 +25,66 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     """)
 
 
-async def memo_posts(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    bch_address = "bch_memo_address"  # Legacy address
-    url = f"https://memo.cash/api/v1/profile/{bch_address}/posts"
-    
-    response = requests.get(url)
-    
+
+async def memo_posts(update, context):
+    # Set up the GraphQL endpoint and query
+    url = "https://graph.cash/graphql"
+    query = """
+        query ($address: Address!) {
+            address (address: $address) {
+                profile {
+                    posts(newest: true, start: "2030-01-01T00:00:00-00:00") {
+                        lock {
+                            address
+                        }
+                        tx {
+                            hash
+                            seen
+                            blocks {
+                                block {
+                                    hash
+                                    timestamp
+                                }
+                            }
+                        }
+                        text   
+                    }
+                }
+            }
+        }
+    """
+
+    # Define the variables with your Bitcoin Cash legacy address
+    variables = {
+        "address": "BCH_LEGACY_ADDRESS"  # Replace with your BCH legacy address
+    }
+
+    # Set up the headers
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    # Make the POST request to the GraphQL endpoint
+    response = requests.post(url, json={"query": query, "variables": variables}, headers=headers)
+
     if response.status_code == 200:
-        posts_data = response.json()
-        if posts_data:
-            latest_post = posts_data[0]
-            message = f"Latest Memo.cash Post:\n{latest_post['message']}\nTimestamp: {latest_post['time']}"
+        data = response.json()
+        
+        # Check if there are any posts in the response data
+        posts = data.get("data", {}).get("address", {}).get("profile", {}).get("posts", [])
+        if posts:
+            latest_post = posts[0]
+            post_text = latest_post['text']
+            tx_hash = latest_post['tx']['hash']
+            timestamp = latest_post['tx']['seen']
+            message = f"Latest Memo.cash Post:\n{post_text}\nTx: {tx_hash}\nTimestamp: {timestamp}"
         else:
             message = "No posts found for this user."
     else:
         message = f"Error retrieving posts: {response.status_code}"
-    
+
     await update.message.reply_text(message)
+
 
 
 
