@@ -6,7 +6,7 @@ import requests
 import requests
 
 # Replace with your Telegram Bot token
-telegram_token = 'TG_Token'
+telegram_token = 'TG_TOKEN'
 
 
 
@@ -20,7 +20,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     Here are the commands you can use:
     /memo_posts - Share the latest memo from XolosArmy on the BCH blokchain
     /vision - Learn about the XolosArmy Vision
-    /token - Buy Xolos $RMZ cashtoken with BCH
+    /token - Get updates on NFT collections
     /XolosRamirez - Learn how to join the XolosArmy Network
     """)
 
@@ -56,7 +56,7 @@ async def memo_posts(update, context):
 
     # Define the variables with your Bitcoin Cash legacy address
     variables = {
-        "address": "BCH_LEGACY_ADDRESS"  # Replace with your BCH legacy address
+        "address": "1Kq5hxjgyzTow9KTMzBJDuSeW3S2eHpXhx"  # Replace with your BCH legacy address
     }
 
     # Set up the headers
@@ -92,9 +92,9 @@ async def memo_posts(update, context):
 async def vision(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("🚀 Learn more about the XolosArmy Network Vision here: https://xolosArmy.xyz/#vision")
 
-# Command to Post NFT Updates (custom message for now)
+# Command to Acquire Xolos $RMZ cashtoken (custom message for now)
 async def token(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("You can Acquire Xolos $RMZ cashtoken at: https://app.cauldron.quest/swap/b09871964619cf43dbb15f05f64af007e3afed1a5fa0c0f45c121441aa3e7e18")
+    await update.message.reply_text("Acquire the Xolos $RMZ cashtoken with BCH at: https://app.cauldron.quest/swap/b09871964619cf43dbb15f05f64af007e3afed1a5fa0c0f45c121441aa3e7e18")
 
 # Command to Provide Join Information
 async def XolosRamirez(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -109,11 +109,9 @@ application.add_handler(CommandHandler("start", start))
 application.add_handler(CommandHandler("help", help_command))
 application.add_handler(CommandHandler("memo_posts", memo_posts))
 application.add_handler(CommandHandler("vision", vision))
-application.add_handler(CommandHandler("home", home))
+application.add_handler(CommandHandler("token", token))
 application.add_handler(CommandHandler("XolosRamirez", XolosRamirez))
 
 # Start the bot
 application.run_polling()
 print("XolosArmy bot is running...")
-
-
